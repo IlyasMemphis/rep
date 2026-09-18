@@ -43,6 +43,20 @@ At minimum preserve:
 - publication metadata;
 - feedback.
 
+### D-008 — Phase 1 must not require separate OpenAI API billing
+
+Date: 2026-09-18.
+
+Current hard constraint: use the existing ChatGPT Plus subscription and do not require a separately billed OpenAI API account, token balance, or additional card-funded usage.
+
+Implications:
+- Codex should authenticate through the ChatGPT account where supported.
+- Prefer Codex App Server/SDK and local orchestration over Agents API for Phase 1.
+- ChatGPT Work/Codex included usage is a finite shared allowance, so tasks must be token/turn efficient.
+- Agents API remains an optional future architecture upgrade rather than a dependency.
+- Avoid browser/UI automation of ChatGPT as the core bridge; it is fragile and unnecessary for local Codex automation.
+- The project must retain a useful manual/semiautomated fallback when included plan limits are temporarily exhausted.
+
 ## Open questions
 
 ### OQ-001 — Exact OBS/capture configuration
@@ -68,6 +82,10 @@ Do not delete after a fixed number of days until successful render, upload verif
 ### OQ-006 — Publishing autonomy
 
 Start with draft/private/scheduled output or explicit approval during calibration. Increase autonomy only after the error rate is low enough.
+
+### OQ-007 — How far can Plus-only unattended orchestration go before plan allowance becomes the bottleneck?
+
+Measure real usage per match before considering any paid API path. Optimize with deterministic preprocessing, cheap/local analysis, compact state files, and limited agent iterations.
 
 ## Change rule
 
