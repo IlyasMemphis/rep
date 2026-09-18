@@ -8,6 +8,19 @@ Prefer:
 
 **event -> analysis -> structured edit plan -> deterministic renderer -> QC -> publish**
 
+## Current cost constraint
+
+Phase 1 must run without separate OpenAI API billing.
+
+Use the ChatGPT Plus subscription and ChatGPT-authenticated Codex local tooling wherever possible. Do not require an OpenAI API key, API credit balance, or separate card-funded token billing for the initial system.
+
+The architecture therefore has two layers:
+
+1. **Plus-only local mode (current target)** — local orchestrator + Codex App Server/SDK authenticated with the user's ChatGPT account, deterministic local tools, synced folders and project files.
+2. **API/cloud mode (optional future upgrade)** — Agents API or other paid API services only if/when their extra autonomy clearly justifies the cost.
+
+The project must remain useful even if API/cloud mode is never enabled.
+
 ## Target pipeline
 
 ```text
@@ -66,6 +79,36 @@ Analytics + creator feedback
 Style / decision system improves
 ```
 
+## Plus-only orchestration path
+
+For the first implementation, avoid requiring Agents API.
+
+Preferred local path:
+
+```text
+Google Drive Desktop / local ingest folder
+        |
+        v
+filesystem watcher
+        |
+        v
+local Node.js/Python orchestrator
+        |
+        +--> Codex App Server / SDK
+        |      authenticated with ChatGPT Plus
+        |
+        +--> persistent Director thread
+        +--> persistent Worker thread
+        +--> deterministic scripts/tools
+        |
+        v
+job state + artifacts on disk / Git
+```
+
+The local orchestrator may start/resume Codex threads programmatically. The ordinary ChatGPT UI is not treated as a programmable daemon and should not be automated through fragile UI clicking.
+
+Deep human-in-the-loop editorial work can still happen in ChatGPT Chat/Work during calibration, but unattended Plus-only execution should be centered on Codex local tooling.
+
 ## Roles
 
 ### Ilyas
@@ -83,6 +126,8 @@ Style / decision system improves
 - produces or reviews structured editorial decisions;
 - performs high-level QC;
 - updates project rules from creator feedback.
+
+In Plus-only mode, the unattended implementation of this role may be represented by a dedicated persistent Codex thread with Director instructions, while ChatGPT Chat/Work remains available for higher-level calibration and review.
 
 ### Video-understanding layer
 
