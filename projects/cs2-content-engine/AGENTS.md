@@ -2,9 +2,9 @@
 
 ## Authority
 
-Read `PROJECT.md`, `DECISIONS.md`, `CAPTURE.md` and `BACKLOG.md` before making project-level changes.
+Start with `START_HERE.md`.
 
-These files are the durable project source of truth. Do not rely on remembered chat context when repository state conflicts with it.
+Read the files it requires before making project-level changes. These files are the durable source of truth. Do not rely on remembered chat context when repository state conflicts with it.
 
 ## Working model
 
@@ -12,6 +12,8 @@ These files are the durable project source of truth. Do not rely on remembered c
 - ChatGPT/editorial reasoning is the project/editorial brain.
 - Codex/local automation is the execution/engineering layer.
 - Deterministic scripts and media tooling should execute decisions reproducibly.
+
+Codex is not expected to rediscover high-level strategy when the Director already specified it. It should receive concise, explicit execution instructions.
 
 ## Engineering behaviour
 
@@ -31,6 +33,19 @@ Respect these constraints:
 - avoid broad tweak packs;
 - preserve rollback information for meaningful changes.
 
+## Model / allowance discipline
+
+Read `MODEL_BUDGET.md` before invoking expensive Codex work.
+
+Rules:
+- prefer the cheapest model that reliably completes the task;
+- keep reasoning effort low for explicit execution tasks unless escalation is justified;
+- do not default to Astra/Sol for worker execution;
+- check ChatGPT/Codex rate-limit state before heavy work when the App Server bridge is available;
+- stop at recoverable checkpoints when allowance becomes constrained;
+- never burn usage by repeatedly retrying the same failed turn without changing the cause;
+- avoid fast/accelerated model mode for ordinary automation unless explicitly justified.
+
 ## Token / compute discipline
 
 - Do not repeatedly send full raw-video context to expensive reasoning models.
@@ -39,6 +54,7 @@ Respect these constraints:
 - Separate expensive editorial reasoning from deterministic execution.
 - Do not use computer-vision/UI clicking where an API, CLI, config file or script is more reliable.
 - Avoid status chatter during long automated work; persist logs and return concise actionable results.
+- Do not restate the entire repository context inside each worker prompt; point to authoritative files and include only task-specific deltas.
 
 ## Media quality
 
@@ -77,4 +93,11 @@ Automation must be:
 
 Any substantial new idea, decision, constraint, failure mode, workflow improvement or creator preference discovered during the project should be written back into the appropriate project file rather than existing only in a chat.
 
-Do not store irrelevant personal information in the repository.
+Use:
+- `DECISIONS.md` for durable decisions;
+- workflow-specific files for technical rules;
+- `BACKLOG.md` for next work;
+- `ideas/` for high-signal unprocessed ideas;
+- future `feedback/` for creator taste corrections.
+
+Do not store unrelated personal-life information in this public repository. See `PERSONAL_KB_PLAN.md` for the separate private-context design.
