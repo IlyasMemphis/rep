@@ -28,6 +28,28 @@ One complete match exists with:
 - no meaningful competitive-performance regression;
 - repeatable recording procedure.
 
+## Phase 1.5 — Plus-only agent bridge
+
+Build only after the capture baseline is proven.
+
+- [ ] Install/configure Codex App Server locally using ChatGPT account authentication, not API billing.
+- [ ] Implement `account/read` sanity check and confirm plan/auth mode.
+- [ ] Implement `account/rateLimits/read` and persist current quota-window state.
+- [ ] Subscribe to rate-limit updates if useful.
+- [ ] Implement job budget guardrails from `MODEL_BUDGET.md`.
+- [ ] Create persistent Director and Worker thread IDs.
+- [ ] Implement thread resume after restart.
+- [ ] Implement structured Director -> Worker -> Director handoff.
+- [ ] Implement job checkpoints so a usage-limit reset never corrupts work.
+- [ ] A/B representative worker tasks on GPT-5.5 low reasoning vs GPT-5.6 Luna; measure reliability and allowance consumption.
+- [ ] Select cheapest sufficient default worker model from evidence.
+- [ ] Remove any durable dependency on GPT-5.5 before 2026-10-14.
+- [ ] Build a minimal test: drop `TEST.mp4` into inbox -> watcher -> worker -> `report.json`, with zero manual clicks after file placement.
+
+### Phase 1.5 exit condition
+
+A local Plus-authenticated automation can detect one test file, inspect current Codex allowance, execute a bounded worker task, persist the result, and recover cleanly from interruption without an OpenAI API key.
+
 ## Phase 2 — One-match intelligence prototype
 
 - [ ] Ingest one full match.
@@ -86,6 +108,17 @@ One complete match exists with:
 - [ ] Channel analytics ingestion.
 - [ ] Feedback loop from CTR, retention and viewer behaviour.
 - [ ] Safe raw-retention cleanup.
+
+## Parallel infrastructure — Private personal context
+
+This is separate from the public CS2 project repository.
+
+- [ ] Create a private GitHub repository for cross-topic durable personal context.
+- [ ] Add private-repo `START_HERE.md` and `INDEX.md`.
+- [ ] Add domain files only as needed.
+- [ ] Keep secrets and highly sensitive material out by default.
+- [ ] Establish an inbox -> curated-state consolidation workflow.
+- [ ] Define a minimal new-chat bootstrap phrase for reading only relevant domain context.
 
 ## Principle
 
