@@ -57,6 +57,36 @@ Implications:
 - Avoid browser/UI automation of ChatGPT as the core bridge; it is fragile and unnecessary for local Codex automation.
 - The project must retain a useful manual/semiautomated fallback when included plan limits are temporarily exhausted.
 
+### D-009 — Codex is a bounded execution resource, not the primary reasoning budget
+
+Date: 2026-09-18.
+
+ChatGPT/editorial reasoning should prepare explicit instructions and durable project state. Codex should primarily execute well-specified technical work.
+
+The local orchestrator must read live ChatGPT/Codex rate-limit state before expensive jobs where supported and stop at recoverable boundaries when the included allowance becomes constrained.
+
+The default worker model is selected by measured reliability per unit of included allowance, not by prestige. GPT-5.5 low reasoning is an allowed temporary baseline while available, but the system must not depend on it because ChatGPT-authenticated GPT-5.5 is scheduled for retirement on 2026-10-14.
+
+### D-010 — New chats bootstrap from a deterministic repository entry point
+
+Date: 2026-09-18.
+
+A new ChatGPT/Work/Codex session is not assumed to automatically read GitHub.
+
+`START_HERE.md` is the canonical bootstrap entry point. A new session should be told to open it; that file defines the minimum authoritative read order.
+
+This avoids giant master prompts and avoids depending on implicit chat-memory behaviour.
+
+### D-011 — General personal context requires a separate private store
+
+Date: 2026-09-18.
+
+The current `IlyasMemphis/rep` repository is public and must not become a life-log or personal database.
+
+Cross-topic durable context should live in a separate private repository with an inbox + curated-domain structure. Secrets and highly sensitive material remain excluded by default even from a private Git repository.
+
+See `PERSONAL_KB_PLAN.md`.
+
 ## Open questions
 
 ### OQ-001 — Exact OBS/capture configuration
@@ -86,6 +116,10 @@ Start with draft/private/scheduled output or explicit approval during calibratio
 ### OQ-007 — How far can Plus-only unattended orchestration go before plan allowance becomes the bottleneck?
 
 Measure real usage per match before considering any paid API path. Optimize with deterministic preprocessing, cheap/local analysis, compact state files, and limited agent iterations.
+
+### OQ-008 — Which low-cost worker model gives the best reliability/allowance ratio?
+
+Benchmark representative tasks instead of guessing. Include GPT-5.5 low reasoning while available and GPT-5.6 Luna/Terra candidates.
 
 ## Change rule
 
